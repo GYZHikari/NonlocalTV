@@ -120,7 +120,9 @@ vector<float> solve_tv_c(const double *W, double *initial_u, int sp_num, int ite
             sumf2 =  sqrt(max_value_tmp); // +??  j = 1ʱ inf
             max_value = sumf2 - 1/beta;
             max_value = max(max_value,0);
-            max_value /= sumf2;  // max/sum2
+			if(max_value!=0)
+            max_value /= sumf2; 
+				// max/sum2
             for(int j = 0; j<size; ++j)
             {
                 float sqrtfw = sqrt(aff_matrix[i][find_num[j]]);
