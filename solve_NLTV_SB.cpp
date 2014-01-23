@@ -3,8 +3,8 @@
 #include <vector>
 #include <cmath>
 #include <mex.h>
+#include <algorithm>
 using namespace std;
-#define max(a, b)  (((a) > (b)) ? (a) : (b))
 
 vector<int> find_index_num(vector<float> &W, float num, int sp_num)
 {
