@@ -120,8 +120,8 @@ vector<float> solve_tv_c(const double *W, double *initial_u, int sp_num, int ite
             sumf2 =  sqrt(max_value_tmp); // +??  j = 1Ê± inf
             max_value = sumf2 - 1/beta;
             max_value = max(max_value,0);
-			if(max_value!=0)
-            max_value /= sumf2; 
+	    if(max_value!=0)
+                max_value /= sumf2; 
 				// max/sum2
             for(int j = 0; j<size; ++j)
             {
@@ -133,7 +133,7 @@ vector<float> solve_tv_c(const double *W, double *initial_u, int sp_num, int ite
         }
         //else
         //{
-        //	// 2·¶Êý
+        //	// 2ï¿½ï¿½ï¿½ï¿½
         //	for(int i = 0; i<sp_num; ++i)
         //	{
         //		int *find_num = find_index_num(aff_matrix[i],0,sp_num);
