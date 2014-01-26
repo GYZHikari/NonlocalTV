@@ -3,8 +3,8 @@
 #include <vector>
 #include <cmath>
 #include <mex.h>
+#include <algorithm>
 using namespace std;
-#define max(a, b)  (((a) > (b)) ? (a) : (b))
 
 vector<int> find_index_num(vector<float> &W, float num, int sp_num)
 {
@@ -143,12 +143,13 @@ vector<float> solve_tv_c(const double *W, double *initial_u, int sp_num, int ite
                     max_value = sumf2 - beta;
                     max_value = max(max_value,0);
                     sumf1 = sqrt(aff_matrix[i][find_num[j]])*(new_u[find_num[j]] - new_u[i])+ new_b[i][find_num[j]];
-                    new_d[i][find_num[j]] = sumf1/sumf2*max_value;
+		    if (sumf2!=0)
+                        new_d[i][find_num[j]] = sumf1/sumf2*max_value;
                 }
             }
         else
         {
-            // 2·¶Êý
+            // 2ï¿½ï¿½ï¿½ï¿½
             for(int i = 0; i<sp_num; ++i)
             {
                 vector<int> find_num;

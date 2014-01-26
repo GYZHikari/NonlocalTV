@@ -172,6 +172,17 @@ function figure1_WindowButtonUpFcn(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 handles.flag = 0;
+<<<<<<< HEAD
+if ~isempty(handles.spImg)
+    
+    switch lower(handles.graphMode)
+        case 'fore'
+            handles.foreseed(handles.foreseed<1) = 1; % y in the img
+            
+            if ~isempty(handles.foreseed)
+                handles.foreseed(handles.foreseed(:,2)>handles.m) = handles.m; % y in the img
+                handles.foreseed(handles.foreseed(:,1)>handles.n) = handles.n; % x in the img
+=======
 switch lower(handles.graphMode)
     case 'fore'
         handles.foreseed(handles.foreseed<1) = 1; % y in the img
@@ -193,9 +204,38 @@ switch lower(handles.graphMode)
             for i = 1:length(commen)
                 [in] = find(handles.spImg(backindex)==commen(i));
                 [ind] = [ind;in];
+>>>>>>> 567b675c57442d33a20bde55b4e71523d7813f72
             end
-            handles.backseed(ind,:) = [];
+            handles.foreseed = fix(handles.foreseed);
+            index=sub2ind(size(handles.spImg),handles.foreseed(:,2),handles.foreseed(:,1));
+            handles.ForeSeed = unique(handles.spImg(index));
             
+<<<<<<< HEAD
+            commen = intersect(handles.BackSeed,handles.ForeSeed);
+            handles.BackSeed = setdiff(handles.BackSeed,commen);
+            ind = [];
+            if ~isempty(commen)
+                backindex = sub2ind(size(handles.spImg),handles.backseed(:,2),handles.backseed(:,1));
+                for i = 1:length(commen)
+                    [in] = find(handles.spImg(backindex)==commen(i));
+                    [ind] = [ind;in];
+                end
+                handles.backseed(ind,:) = [];
+                
+            end
+            
+            sp_im = draw_seed(handles.img, handles.spImg, handles.ForeSeed,[255,0,0]);
+            sp_im = draw_seed(sp_im, handles.spImg, handles.BackSeed,[0,0,255]);
+            handles.sp_im = sp_im;
+            axes(handles.axes1);
+            imshow(handles.sp_im);
+        case 'back'
+            handles.backseed(handles.backseed<1) = 1; % y in the img
+            
+            if ~isempty(handles.backseed)
+                handles.backseed(handles.backseed(:,2)>handles.m) = handles.m; % y in the img
+                handles.backseed(handles.backseed(:,1)>handles.n) = handles.n; % x in the img
+=======
         end
         
         sp_im = draw_seed(handles.img, handles.spImg, handles.ForeSeed,[255,0,0]);
@@ -252,21 +292,79 @@ switch lower(handles.graphMode)
             for i = 1:length(commen)
                 [in] = find(handles.spImg(foreindex)==commen(i));
                 ind = [ind;in];
+>>>>>>> 567b675c57442d33a20bde55b4e71523d7813f72
             end
-            handles.foreseed(ind,:) = [];
-        end
-        
-        commen = intersect(handles.BackSeed,handles.EraSeed);
-        handles.BackSeed = setdiff(handles.BackSeed,commen);
-        ind = [];
-        if ~isempty(commen)
-            backindex = sub2ind(size(handles.spImg),handles.backseed(:,2),handles.backseed(:,1));
-            for i = 1:length(commen)
-                [in] = find(handles.spImg(backindex)==commen(i));
-                [ind] = [ind;in];
-            end
-            handles.backseed(ind,:) = [];
+            handles.backseed = fix(handles.backseed);
             
+            index=sub2ind(size(handles.spImg),handles.backseed(:,2),handles.backseed(:,1));
+            handles.BackSeed = unique(handles.spImg(index));
+            
+            commen = intersect(handles.BackSeed,handles.ForeSeed);
+            handles.ForeSeed = setdiff(handles.ForeSeed,commen);
+            ind = [];
+            if ~isempty(commen)
+                foreindex = sub2ind(size(handles.spImg),handles.foreseed(:,2),handles.foreseed(:,1));
+                for i = 1:length(commen)
+                    [in] = find(handles.spImg(foreindex)==commen(i));
+                    ind = [ind;in];
+                end
+                handles.foreseed(ind,:) = [];
+            end
+            sp_im = draw_seed(handles.img, handles.spImg, handles.ForeSeed,[255,0,0]);
+            sp_im = draw_seed(sp_im, handles.spImg, handles.BackSeed,[0,0,255]);
+            handles.sp_im = sp_im;
+            axes(handles.axes1);
+            imshow(handles.sp_im);
+            
+<<<<<<< HEAD
+        case 'eraser'
+            handles.eraserseed(handles.eraserseed<1) = 1; % y in the img
+            
+            if ~isempty(handles.eraserseed)
+                handles.eraserseed(handles.eraserseed(:,2)>handles.m) = handles.m; % y in the img
+                handles.eraserseed(handles.eraserseed(:,1)>handles.n) = handles.n; % x in the img
+            end
+            handles.eraserseed = fix(handles.eraserseed);
+            
+            index=sub2ind(size(handles.spImg),handles.eraserseed(:,2),handles.eraserseed(:,1));
+            handles.EraSeed = unique(handles.spImg(index));
+            
+            commen = intersect(handles.ForeSeed,handles.EraSeed);
+            handles.ForeSeed = setdiff(handles.ForeSeed,commen);
+            ind = [];
+            if ~isempty(commen)
+                foreindex = sub2ind(size(handles.spImg),handles.foreseed(:,2),handles.foreseed(:,1));
+                for i = 1:length(commen)
+                    [in] = find(handles.spImg(foreindex)==commen(i));
+                    ind = [ind;in];
+                end
+                handles.foreseed(ind,:) = [];
+            end
+            
+            commen = intersect(handles.BackSeed,handles.EraSeed);
+            handles.BackSeed = setdiff(handles.BackSeed,commen);
+            ind = [];
+            if ~isempty(commen)
+                backindex = sub2ind(size(handles.spImg),handles.backseed(:,2),handles.backseed(:,1));
+                for i = 1:length(commen)
+                    [in] = find(handles.spImg(backindex)==commen(i));
+                    [ind] = [ind;in];
+                end
+                handles.backseed(ind,:) = [];
+                
+            end
+            
+            
+            sp_im = draw_seed(handles.img, handles.spImg, handles.ForeSeed,[255,0,0]);
+            sp_im = draw_seed(sp_im, handles.spImg, handles.BackSeed,[0,0,255]);
+            handles.sp_im = sp_im;
+            axes(handles.axes1);
+            imshow(handles.sp_im);
+            handles.EraSeed = [];
+            handles.eraserseed =[];
+            
+    end
+=======
         end
         
         
@@ -278,8 +376,8 @@ switch lower(handles.graphMode)
         handles.EraSeed = [];
         handles.eraserseed =[];
         
+>>>>>>> 567b675c57442d33a20bde55b4e71523d7813f72
 end
-
 guidata(hObject,handles);
 
 
@@ -323,6 +421,10 @@ end
 function figure1_CreateFcn(hObject, eventdata, handles)
 handles.flag = 0;
 handles.maxSpNum = 200;
+<<<<<<< HEAD
+handles.spImg = [];
+=======
+>>>>>>> 567b675c57442d33a20bde55b4e71523d7813f72
 handles.foreseed= [];
 handles.backseed =[];
 handles.BackSeed = [];
@@ -330,6 +432,7 @@ handles.ForeSeed = [];
 handles.EraSeed = [];
 handles.eraserseed =[];
 handles.graphMode = 'fore';
+handles.color = [1,0,0];
 guidata(hObject,handles);
 
 % hObject    handle to figure1 (see GCBO)
@@ -381,7 +484,15 @@ handles.edges = gene_connect_edges(handles.spAdjcMat,handles.spNum,handles.BackS
 handles.affmat = gene_affmat(handles.edges,handles.spNum,handles.spCnt,handles.labFea,param);
 handles.W = reshape(handles.affmat',1,handles.spNum.^2);
 
+<<<<<<< HEAD
+handles.sal = solve_NLH1_iter(handles.W,handles.prior',handles.spNum,10,2,1,1,1);
+handles.salMap = saliencySp2img(handles.sal,handles.spImg);
+axes(handles.axes2);
+imshow(handles.salMap);
+imwrite(handles.salMap,[handles.saldir,handles.imname]);
+=======
 handles.sal = solve_NLTV_ADM(handles.W,handles.prior',handles.spNum,10,2,1,1,1);
 handles.salMap = saliencySp2img(handles.sal,handles.spImg);
 axes(handles.axes2);
 imshow(handles.salMap);
+>>>>>>> 567b675c57442d33a20bde55b4e71523d7813f72
